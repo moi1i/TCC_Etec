@@ -52,12 +52,12 @@ const styles = StyleSheet.create({
       margin: 30,
       width: 280,
       alignItems: 'center',
-      borderRadius: 11,
+      borderRadius: 10,
       elevation: 1,
       alignSelf: 'center'
   },
   scroll: {
-    width: '90%',
+    width: '100%',
   },
   //style "Já tem uma conta?"
   botao2: {
@@ -71,6 +71,7 @@ const styles = StyleSheet.create({
       justifyContent: 'center',
       alignSelf: 'flex-end',
       marginTop: 5,
+      marginRight: 25
   },
 
   text2:{

@@ -46,7 +46,7 @@ const styles = StyleSheet.create({
     marginBottom: 15,
     width: 280,
     alignItems: "center",
-    borderRadius: 11,
+    borderRadius: 10,
     elevation: 1,
     alignSelf: "center",
   },
@@ -58,13 +58,14 @@ const styles = StyleSheet.create({
     height: "100%",
   },
   scroll: {
-    width: "90%",
+    width: "100%",
   },
-  //botão "Esqueceu sua senha?"
+  //botão "Não possui cadastro?"
   viewB: {
     justifyContent: "center",
     alignSelf: "flex-end",
     marginTop: 5,
+    marginRight: 15
   },
   botao2: {
     backgroundColor: "#fffceb",
@@ -79,7 +80,7 @@ const styles = StyleSheet.create({
     fontWeight: "700",
   },
 
-  //Cadastrar-se
+  //Esqueceu sua senha
   viewC: {
     justifyContent: "center",
     alignSelf: "center",

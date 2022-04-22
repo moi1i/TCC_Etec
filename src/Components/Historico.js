@@ -4,16 +4,18 @@ import {
   Text,
   FlatList,
   Alert,
-  ImageBackground,
 } from "react-native";
 
 import Icon from "react-native-vector-icons/MaterialIcons";
 import styles from "../styles/SHistorico";
 
-export default function Historico() {
+export default function Historico({navigation}) {
   return (
     <View style={styles.container}>
-      <TouchableOpacity style={styles.botaoTop}>
+      <TouchableOpacity style={styles.botaoTop}  onPress={() => {
+            navigation.goBack()
+          }}>
+     
         <Icon name="arrow-back" color="white" size={30} />
       </TouchableOpacity>
       <Text style={styles.title}>Histórico</Text>

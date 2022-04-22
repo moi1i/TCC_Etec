@@ -10,7 +10,7 @@ import {
 
 import styles from "../styles/SCadastro";
 
-export default function Cadastro() {
+export default function Cadastro( { navigation } ) {
   return (
     <View style={styles.container}>
       <ImageBackground
@@ -49,7 +49,7 @@ export default function Cadastro() {
           <TouchableOpacity
             style={styles.botao2}
             onPress={() => {
-              Alert.alert("Tudo certo", "Cadastro efetuado com sucesso!!");
+              navigation.navigate('Login')
             }}
           >
             <Text style={styles.text2}>Já possui uma conta?</Text>
@@ -59,7 +59,7 @@ export default function Cadastro() {
           <TouchableOpacity
             style={styles.botao}
             onPress={() => {
-              Alert.alert("Tudo certo", "Cadastro efetuado com sucesso!!");
+              navigation.navigate('Login')
             }}
           >
             <Text style={styles.text}>Cadastrar</Text>

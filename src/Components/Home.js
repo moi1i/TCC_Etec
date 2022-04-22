@@ -12,7 +12,7 @@ import {
 import Icon from "react-native-vector-icons/MaterialIcons";
 import styles from "../styles/SHome";
 
-export default function Home() {
+export default function Home({ navigation }) {
   const drawer = useRef(null);
   const Menu = () => (
     <View style={styles.viewBotao}>
@@ -20,14 +20,17 @@ export default function Home() {
         style={styles.botaoVoltar}
         onPress={() => drawer.current.closeDrawer()}
       >
+        
         <Icon name="arrow-back" color="white" size={33} />
+       
       </TouchableOpacity>
+      
 
       <View style={[styles.containerMenu]}>
         <TouchableOpacity
           style={styles.botaoTelas}
           onPress={() => {
-            Alert.alert("Adicionar lembrete", "Rotas em breve...");
+            navigation.navigate('Lembrete')
           }}
         >
            <Icon style={styles.iconMenu} name="add-alarm" color="#fae278" size={40} />
@@ -36,7 +39,7 @@ export default function Home() {
         <TouchableOpacity
           style={styles.botaoTelas}
           onPress={() => {
-            Alert.alert("Histórico", "Rotas em breve...");
+            navigation.navigate('Historico')
           }}
         >
            <Icon style={styles.iconMenu} name="history" color="#fae278" size={40} />
@@ -45,7 +48,7 @@ export default function Home() {
         <TouchableOpacity
           style={styles.botaoSair}
           onPress={() => {
-            Alert.alert("Sair", "Logout em breve...");
+            navigation.navigate('Login')
           }}
         >
           <Text style={styles.textBotao2}>Sair</Text>
@@ -75,7 +78,7 @@ export default function Home() {
             <Icon style={styles.iconTop} name="menu" color="white" size={40} />
           </TouchableOpacity>
           <View style={styles.container}>
-            <Text style={styles.title}>Olá,{"\n"}Usuário</Text>
+          <Text style={styles.title}>Olá,{"\n"}Usuário</Text>
             <View style={styles.frasesView}>
               <Text style={styles.textFrases}>
                 Cuidar da sua saúde mental é algo que somente você pode fazer.
@@ -121,7 +124,7 @@ export default function Home() {
           <View style={styles.row}>
             <TouchableOpacity
               onPress={() => {
-                Alert.alert("Adicionar lembrete", "Em breve....");
+                navigation.navigate('Lembrete')
               }}
             >
               <Text>

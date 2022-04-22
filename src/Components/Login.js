@@ -10,7 +10,7 @@ import {
 
 import styles from "../styles/Slogin";
 
-export default function Login() {
+export default function Login( { navigation }) {
   return (
     <View style={styles.container}>
       <ImageBackground
@@ -39,7 +39,7 @@ export default function Login() {
               <TouchableOpacity
                 style={styles.botao2}
                 onPress={() => {
-                  Alert.alert("Tudo certo", "Cadastro efetuado com sucesso!!");
+                  navigation.navigate('Cadastro')
                 }}
               >
                 <Text style={styles.text2}>Não possui cadastro?</Text>
@@ -49,7 +49,7 @@ export default function Login() {
             <TouchableOpacity
               style={styles.botao}
               onPress={() => {
-                Alert.alert("Tudo certo", "Login efetuado com sucesso!!");
+                navigation.navigate('Home')
               }}
             >
               <Text style={styles.text}>Entrar</Text>
@@ -59,7 +59,7 @@ export default function Login() {
               <TouchableOpacity
                 style={styles.botao3}
                 onPress={() => {
-                  Alert.alert("Tudo certo", "Cadastro efetuado com sucesso!!");
+                  Alert.alert("Restauração de senha", "Em breve...");
                 }}
               >
                 <Text style={styles.text2}>Esqueceu sua senha?</Text>

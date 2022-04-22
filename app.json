@@ -4,9 +4,9 @@
     "slug": "frontEnd_TCC",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/icon.png",
+    "icon": "./src/images/splash01p.png",
     "splash": {
-      "image": "./assets/splash.png",
+      "image": "./src/images/splash01p.png",
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
     },

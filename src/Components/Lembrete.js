@@ -4,36 +4,19 @@ import {
   Text,
   ScrollView,
   TextInput,
-  Alert,
 } from "react-native";
 
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 
 import styles from "../styles/SLembrete";
 
-export default function Lembrete() {
-  
-  let data = [
-    {
-      value: "12:01",
-    },
-    {
-      value: "12:00",
-    },
-    {
-      value: "11:59",
-    },
-    {
-      value: "11:58",
-    },
-    {
-      value: "11:57",
-    },
-  ];
-
+export default function Lembrete({ navigation }) {
   return (
     <View style={styles.view1}>
-      <TouchableOpacity style={styles.botaoTop}>
+      <TouchableOpacity style={styles.botaoTop} onPress={() => {
+          navigation.goBack();
+        }}>
+        
         <Icon name="arrow-left" color="white" size={35} />
       </TouchableOpacity>
       <Text style={styles.title}>Adicionar Lembrete</Text>
@@ -58,7 +41,7 @@ export default function Lembrete() {
           <TouchableOpacity
             style={styles.botao}
             onPress={() => {
-              Alert.alert("Tudo certo", "Lembrete adicionado com sucesso!!");
+              navigation.goBack();
             }}
           >
             <Text style={styles.text2}>OK</Text>
