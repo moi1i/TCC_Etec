@@ -13,6 +13,7 @@ Node version:
 Platform: 
   win32 ia32
 
+
 Trace: 
   Error: https://registry.yarnpkg.com/RNSScreenStackHeaderConfig: Not found
       at Request.params.callback [as _callback] (C:\Users\moise\AppData\Roaming\npm\node_modules\yarn\lib\cli.js:66992:18)

@@ -59,7 +59,7 @@ const styles = StyleSheet.create({
   scroll: {
     width: '100%',
   },
-  //style "Já tem uma conta?"
+  //style do botão "Já tem uma conta?"
   botao2: {
     padding: 5,
     width: 150,
