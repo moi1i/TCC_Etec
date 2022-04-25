@@ -8,16 +8,19 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   container2: {
-    flex: 0.69,
+    flex: 0.88,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: '#fffceb',
-    width: '85%',
+    backgroundColor: 'white',
+    width: '90%',
     borderRadius: 25,
     elevation: 2,
+    paddingHorizontal: 15,
   },
-  text:{
-    color: '#202020',
+  text: {
+    color: "#2a2a2a",
+    fontSize: 15,
+    fontWeight: '700'
   },
   title: {
       fontSize: 25,
@@ -30,14 +33,11 @@ const styles = StyleSheet.create({
       alignSelf: 'center',
   },
   input: {
-      backgroundColor: 'white',
-      borderRadius: 10,
-      width: 250,
-      padding: 10,
-      marginTop: 10,
-      elevation: 2,
-      alignSelf: 'center',
-      alignItems: 'center',
+    borderRadius: 10,
+    width: 250,
+    padding: 10,
+    marginTop: 10,
+    alignSelf: "center",
   },
   image: {
     flex: 1,
@@ -61,22 +61,19 @@ const styles = StyleSheet.create({
   },
   //style "Já tem uma conta?"
   botao2: {
-    backgroundColor: '#fffceb',
     padding: 5,
     width: 150,
     alignItems: 'flex-end',
     borderRadius: 10,
   },
   viewB: {
-      justifyContent: 'center',
-      alignSelf: 'flex-end',
-      marginTop: 5,
-      marginRight: 25
+    justifyContent: "center",
+    alignSelf: "center",
+    margin: 5,
   },
 
   text2:{
     color: '#2a2a2a',
-    textDecorationLine: 'underline',
     fontWeight: '700'
   },
 

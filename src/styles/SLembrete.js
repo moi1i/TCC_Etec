@@ -80,6 +80,13 @@ const styles = StyleSheet.create({
     elevation: 1,
     alignSelf: "center",
   },
+  container2: {
+    backgroundColor: "#fffceb",
+    width: '90%',
+    borderRadius: 25,
+    elevation: 3,
+    paddingVertical: 30,
+  },
 });
 
 export default styles;

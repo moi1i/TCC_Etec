@@ -23,6 +23,7 @@ export default function Lembrete({ navigation }) {
 
       <ScrollView style={styles.scroll}>
         <View style={styles.container}>
+          <View style={styles.container2}>
           <Text style={styles.text}>Nome do medicamento</Text>
           <View style={styles.view0}>
             <Icon name="pill" color="black" size={30} />
@@ -46,6 +47,7 @@ export default function Lembrete({ navigation }) {
           >
             <Text style={styles.text2}>OK</Text>
           </TouchableOpacity>
+          </View>
         </View>
       </ScrollView>
     </View>
