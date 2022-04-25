@@ -78,7 +78,7 @@ const styles = StyleSheet.create({
     fontWeight: "700",
   },
 
-  //Esqueceu sua senha
+  //Botão "Esqueceu sua senha?"
   viewC: {
     justifyContent: "center",
     alignSelf: "center",

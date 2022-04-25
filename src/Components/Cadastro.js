@@ -1,9 +1,7 @@
 import {
   View,
-  TextInput,
   TouchableOpacity,
   Text,
-  Alert,
   ImageBackground,
   ScrollView,
   StatusBar,

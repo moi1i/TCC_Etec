@@ -1,6 +1,5 @@
 import {
   View,
-  TextInput,
   TouchableOpacity,
   Text,
   Alert,
@@ -9,9 +8,9 @@ import {
   StatusBar,
 } from "react-native";
 
-import styles from "../styles/Slogin";
-
 import { Input } from "react-native-elements";
+
+import styles from "../styles/Slogin";
 
 import Icon from "react-native-vector-icons/MaterialIcons";
 
