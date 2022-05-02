@@ -1,14 +1,13 @@
 import {StyleSheet} from 'react-native';
-import { textDecorationColor } from 'react-native/Libraries/Components/View/ReactNativeStyleAttributes';
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
+    width: '100%',
+    height: '100%',
     justifyContent: 'center',
     alignItems: 'center',
   },
   container2: {
-    flex: 0.88,
     justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: 'white',
@@ -40,7 +39,6 @@ const styles = StyleSheet.create({
     alignSelf: "center",
   },
   image: {
-    flex: 1,
     justifyContent: "center",
     alignItems: "center",
     width: '100%',
@@ -62,21 +60,20 @@ const styles = StyleSheet.create({
   //Botão "Já tem uma conta?"
   botao2: {
     padding: 5,
-    width: 150,
-    alignItems: 'flex-end',
+    width: 200,
+    alignItems: 'center',
     borderRadius: 10,
   },
   viewB: {
     justifyContent: "center",
     alignSelf: "center",
-    margin: 5,
+    marginBottom: 30,
   },
 
   text2:{
     color: '#2a2a2a',
     fontWeight: '700'
   },
-
 });
 
 export default styles;

@@ -2,28 +2,14 @@ import { StyleSheet } from "react-native";
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
     justifyContent: "center",
     alignItems: 'center',
   },
-  botaoTop: {
-      justifyContent: 'center',
-      backgroundColor: '#fae278',
-      alignSelf: 'flex-start',
-      marginTop: 40,
-      marginLeft: 20,
-      borderRadius: 5,
-      padding: 7,
-  },
   image: {
-    flex: 1,
     justifyContent: "center",
     alignItems: "center",
     width: "100%",
     height: "100%",
-  },
-  iconTop: {
-      alignSelf: 'flex-start',
   },
   title: {
       fontSize: 29,
@@ -82,17 +68,14 @@ const styles = StyleSheet.create({
 
   //Style icons Bottom
   view1: {
-    flex: 1,
+    height: '100%',
+    width: '100%'
   },
   row:{
       alignSelf: 'center',
       justifyContent: 'flex-end',
       marginTop: 10,
   },
-  teste: {
-    flex: 1
-  },
-
   //Menu
   viewBotao: {
     flex: 1,

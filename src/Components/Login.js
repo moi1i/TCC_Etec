@@ -13,8 +13,13 @@ import { Input } from "react-native-elements";
 import styles from "../styles/Slogin";
 
 import Icon from "react-native-vector-icons/MaterialIcons";
+import { useState } from "react";
 
 export default function Login({ navigation }) {
+
+  const [login, setLogin] = useState('');
+  const [senha, setSenha] = useState('');
+
   return (
     <View style={styles.container}>
       <StatusBar
@@ -30,10 +35,6 @@ export default function Login({ navigation }) {
         blurRadius={1}
       >
         <View style={styles.container2}>
-          <ScrollView
-            style={styles.scroll}
-            keyboardShouldPersistTaps={"always"}
-          >
             <Text style={styles.title}>Login</Text>
 
             <Input
@@ -82,7 +83,6 @@ export default function Login({ navigation }) {
                 <Text style={styles.text2}>Esqueceu sua senha?</Text>
               </TouchableOpacity>
             </View>
-          </ScrollView>
         </View>
       </ImageBackground>
     </View>

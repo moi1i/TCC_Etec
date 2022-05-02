@@ -13,6 +13,7 @@ const styles = StyleSheet.create({
     width: "82%",
     borderRadius: 30,
     marginTop: 15,
+    marginBottom: 30,
   },
   viewList: {
     width: 270,
@@ -46,7 +47,7 @@ const styles = StyleSheet.create({
     marginTop: 10,
     marginLeft: 20,
     borderRadius: 10,
-    padding: 12,
+    padding: 15,
     elevation: 2,
   },
 });

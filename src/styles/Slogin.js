@@ -1,21 +1,21 @@
 import { StyleSheet } from "react-native";
-import { textDecorationColor } from "react-native/Libraries/Components/View/ReactNativeStyleAttributes";
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
+    width: '100%',
+    height: '100%',
     justifyContent: "center",
     alignItems: "center",
   },
   container2: {
-    flex: 0.65,
     justifyContent: "center",
     alignItems: "center",
     backgroundColor: "white",
-    width: "85%",
+    width: "90%",
     borderRadius: 25,
     elevation: 3,
     padding: 10,
+    marginTop: 20,
   },
   text: {
     color: "#2a2a2a",
@@ -52,7 +52,6 @@ const styles = StyleSheet.create({
     alignSelf: "center",
   },
   image: {
-    flex: 1,
     justifyContent: "center",
     alignItems: "center",
     width: "100%",
@@ -69,7 +68,7 @@ const styles = StyleSheet.create({
   },
   botao2: {
     padding: 5,
-    width: 150,
+    width: 200,
     alignItems: "center",
     borderRadius: 10,
   },
@@ -82,10 +81,11 @@ const styles = StyleSheet.create({
   viewC: {
     justifyContent: "center",
     alignSelf: "center",
+    marginBottom: 30,
   },
   botao3: {
     padding: 5,
-    width: 150,
+    width: 200,
     alignItems: "center",
     borderRadius: 10,
   },

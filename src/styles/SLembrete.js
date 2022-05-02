@@ -1,13 +1,11 @@
 import { StyleSheet } from "react-native";
 
 const styles = StyleSheet.create({
-  view1: {
-    flex: 1,
-  },
   container: {
-    flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
+    height: '100%',
+    width: '100%',
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   botaoTop: {
     justifyContent: "center",
@@ -16,7 +14,7 @@ const styles = StyleSheet.create({
     marginTop: 40,
     marginLeft: 20,
     borderRadius: 10,
-    padding: 10,
+    padding: 15,
     elevation: 2,
   },
   title: {
@@ -25,15 +23,20 @@ const styles = StyleSheet.create({
     fontWeight: "700",
     marginLeft: 25,
     color: "black",
-    margin: 20,
-    marginTop: 35,
+    marginTop: 40,
   },
   text: {
     fontWeight: "600",
     color: "black",
     fontSize: 18,
     marginTop: 40,
-    marginLeft: 40,
+    alignSelf: "flex-start",
+  },
+  text3: {
+    fontWeight: "600",
+    color: "black",
+    fontSize: 18,
+    marginTop: 20,
     alignSelf: "flex-start",
   },
   text2: {
@@ -44,7 +47,7 @@ const styles = StyleSheet.create({
     marginTop: 3,
     flexDirection: "row",
     alignItems: "center",
-    backgroundColor: "#e5e5e5",
+    backgroundColor: "white",
     borderRadius: 18,
     paddingLeft: 8,
     alignSelf: "center",
@@ -54,38 +57,39 @@ const styles = StyleSheet.create({
     marginTop: 3,
     flexDirection: "row",
     alignItems: "center",
-    backgroundColor: "#e5e5e5",
+    backgroundColor: "white",
     borderRadius: 18,
     paddingLeft: 8,
-    alignSelf: "center",
-    marginBottom: 40,
+    marginBottom: 0,
     elevation: 1
   },
   input: {
-    alignSelf: "center",
-    width: 250,
+    width: 280,
     padding: 15,
     borderRadius: 15,
   },
   scroll: {
-    flex: 1,
+    width: '100%',
+    height: '100%'
   },
   botao: {
     backgroundColor: "#fae278",
-    padding: 13,
-    margin: 20,
-    width: 130,
+    padding: 20,
+    marginVertical: 30,
+    width: 140,
     alignItems: "center",
     borderRadius: 11,
     elevation: 1,
     alignSelf: "center",
   },
   container2: {
-    backgroundColor: "#fffceb",
-    width: '90%',
+    width: '100%',
     borderRadius: 25,
-    elevation: 3,
     paddingVertical: 30,
+  },
+  view03: {
+    alignSelf: 'center',
+    alignItems: 'flex-start',
   },
 });
 

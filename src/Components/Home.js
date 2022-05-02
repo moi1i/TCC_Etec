@@ -16,16 +16,6 @@ export default function Home({ navigation }) {
   const drawer = useRef(null);
   const Menu = () => (
     <View style={styles.viewBotao}>
-      <TouchableOpacity
-        style={styles.botaoVoltar}
-        onPress={() => drawer.current.closeDrawer()}
-      >
-        
-        <Icon name="arrow-back" color="white" size={33} />
-       
-      </TouchableOpacity>
-      
-
       <View style={[styles.containerMenu]}>
         <TouchableOpacity
           style={styles.botaoTelas}
@@ -65,18 +55,12 @@ export default function Home({ navigation }) {
       drawerPosition={"left"}
       renderNavigationView={Menu}
     >
-      <View style={styles.view1}>
+      <View style={styles.container}>
         <ImageBackground
           source={require("../images/fundo03.jpg")}
           style={styles.image}
           resizeMode={"cover"}
         >
-          <TouchableOpacity
-            style={styles.botaoTop}
-            onPress={() => drawer.current.openDrawer()}
-          >
-            <Icon style={styles.iconTop} name="menu" color="white" size={40} />
-          </TouchableOpacity>
           <View style={styles.container}>
           <Text style={styles.title}>Olá,{"\n"}Usuário</Text>
             <View style={styles.frasesView}>
