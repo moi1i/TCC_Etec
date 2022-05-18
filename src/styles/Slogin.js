@@ -38,7 +38,12 @@ const styles = StyleSheet.create({
     padding: 10,
     marginTop: 10,
     alignSelf: "center",
-    
+  },
+  inputError: {
+    fontSize: 13,
+    alignSelf: 'flex-start',
+    color: '#ff375b',
+    marginBottom: 5,
   },
   botao: {
     backgroundColor: "#fae278",

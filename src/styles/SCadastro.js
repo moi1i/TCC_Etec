@@ -38,6 +38,12 @@ const styles = StyleSheet.create({
     marginTop: 10,
     alignSelf: "center",
   },
+  inputError: {
+    fontSize: 13,
+    alignSelf: 'flex-start',
+    color: '#ff375b',
+    marginBottom: 5,
+  },
   image: {
     justifyContent: "center",
     alignItems: "center",
@@ -74,6 +80,7 @@ const styles = StyleSheet.create({
     color: '#2a2a2a',
     fontWeight: '700'
   },
+ 
 });
 
 export default styles;

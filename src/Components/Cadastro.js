@@ -6,66 +6,40 @@ import {
   ImageBackground,
   ScrollView,
   StatusBar,
-  Alert
+  Alert,
 } from "react-native";
 
-import { Input } from "react-native-elements";
+import { useForm, Controller } from "react-hook-form";
+import { yupResolver } from "@hookform/resolvers/yup";
+import * as yup from "yup";
 
+import { Input } from "react-native-elements";
 import Icon from "react-native-vector-icons/MaterialIcons";
 
 import styles from "../styles/SCadastro";
 
-import api from '../api/Api';
+import api from "../api/Api";
 
 export default function Cadastro({ navigation }) {
+  const schema = yup.object({
+    nome: yup.string().required("Digite seu nome"),
+    email: yup.string().email("Email inválido").required("Digite seu email"),
+    senha: yup.string()
+      .min(6, "A senha deve ter pelo menos 6 caracteres")
+      .required("Digite uma senha"),
+    confirmarSenha: yup.string()
+     .oneOf([yup.ref('senha'), null], 'As senhas não são iguais')
+  });
+  const {
+    control,
+    handleSubmit,
+    formState: { errors },
+  } = useForm({
+    resolver: yupResolver(schema),
+  });
 
-  const [nome, setNome] = useState('');
-  const [login, setLogin] = useState('');
-  const [senha, setSenha] = useState('');
-  const [isLoading, setIsLoading] = useState(false);
-
-  const onChangeNameHandler = (name) => {
-    setNome(name);
-  };
-
-  const onChangeEmailHandler = (login) => {
-    setLogin(login);
-  };
-
-  const onChangeSenhaHandler = (senha) => {
-    setSenha(senha);
-  };
-
-
-  const onSubmitFormHandler = async (event) => {
-    if (!nome.trim() || !login.trim() || !senha.trim()) {
-      Alert.alert("Erro", "Preencha os campos.");
-      return;
-    }
-    setIsLoading(true);
-
-    try {
-      const response = await api.post("/usuarios/save", {
-        nome, 
-        login,
-        senha,
-      })
-
-      if (response.status === 200) {
-        Alert.alert('Sucesso', 'Cadastro efetuado com sucesso!!');
-        setIsLoading(false);
-        setNome('');
-        setLogin('');
-        setSenha('');
-      } else {
-        throw new Error("Erro desconhecido.");
-      }
-
-
-    }catch(err) {
-      Alert.alert("Sucesso", "Cadastro efetuado com sucesso!!");
-      setIsLoading(false);
-    };
+  function handleSignIn(data) {
+    console.log(data);
   }
 
   return (
@@ -83,68 +57,108 @@ export default function Cadastro({ navigation }) {
         blurRadius={1}
       >
         <View style={styles.container2}>
+          <Text style={styles.title}>Cadastro</Text>
+
+          <Controller
+            control={control}
+            name={"nome"}
+            render={({ field: { onChange, value } }) => (
+              <Input
+                style={styles.input}
+                placeholder="Digite seu nome"
+                placeholderTextColor="black"
+                autoCapitalize="none"
+                value={value}
+                onChangeText={onChange}
+                leftIcon={<Icon name="person" color="black" size={24} />}
+              />
+            )}
+          />
+          {errors.nome && (
+            <Text style={styles.inputError}>{errors.nome?.message}</Text>
+          )}
+
+          <Controller
+            control={control}
+            name={"email"}
+            render={({ field: { onChange, value } }) => (
+              <Input
+                style={styles.input}
+                placeholder="Digite seu email"
+                placeholderTextColor="black"
+                autoCapitalize="none"
+                keyboardType="email-address"
+                value={value}
+                onChangeText={onChange}
+                leftIcon={<Icon name="email" color="black" size={24} />}
+              />
+            )}
+          />
+           {errors.email && (
+            <Text style={styles.inputError}>{errors.email?.message}</Text>
+          )}
+
+          <Controller
+            control={control}
+            name={"senha"}
+            render={({ field: { onChange, value } }) => (
+              <Input
+                style={styles.input}
+                placeholder="Digite sua senha"
+                placeholderTextColor="black"
+                autoCapitalize="none"
+                secureTextEntry={true}
+                value={value}
+                onChangeText={onChange}
+                leftIcon={<Icon name="lock" color="black" size={24} />}
+              />
+            )}
+          />
+          {errors.senha && (
+            <Text style={styles.inputError}>{errors.senha?.message}</Text>
+          )}
+          
+
+          <Controller
+            control={control}
+            name={"confirmarSenha"}
+            render={({ field: { onChange, value } }) => (
+              <Input
+                style={styles.input}
+                placeholder="Digite sua senha"
+                placeholderTextColor="black"
+                autoCapitalize="none"
+                secureTextEntry={true}
+                value={value}
+                onChangeText={onChange}
+                leftIcon={<Icon name="lock" color="black" size={24} />}
+              />
+            )}
+          />
+          {errors.confirmarSenha && (
+            <Text style={styles.inputError}>{errors.confirmarSenha?.message}</Text>
+          )}
         
-            <Text style={styles.title}>Cadastro</Text>
 
-            <Input
-              style={styles.input}
-              placeholder="Digite seu nome"
-              placeholderTextColor="black"
-              value={nome}
-              editable={!isLoading}
-              onChangeText={onChangeNameHandler}
-              leftIcon={<Icon name="person" color="black" size={24} />}
-            />
+          <TouchableOpacity
+            style={styles.botao}
+            onPress={handleSubmit(handleSignIn)}
+          >
+            <Text style={styles.text}>Cadastrar</Text>
+          </TouchableOpacity>
 
-            <Input
-              style={styles.input}
-              placeholder="Digite seu email"
-              placeholderTextColor="black"
-              value={login}
-              editable={!isLoading}
-              onChangeText={onChangeEmailHandler}
-              leftIcon={<Icon name="email" color="black" size={24} />}
-            />
-            <Input
-              style={styles.input}
-              placeholder="Digite sua senha"
-              placeholderTextColor="black"
-              secureTextEntry={true}
-              value={senha}
-              editable={!isLoading}
-              onChangeText={onChangeSenhaHandler}
-              leftIcon={<Icon name="lock" color="black" size={24} />}
-            />
-
-            <Input
-              style={styles.input}
-              placeholder="Confirme sua senha"
-              placeholderTextColor="black"
-              secureTextEntry={true}
-              leftIcon={<Icon name="lock" color="black" size={24} />}
-            />
-
+          <View style={styles.viewB}>
             <TouchableOpacity
-              style={styles.botao}
-              disabled={isLoading}
-              onPress={onSubmitFormHandler}
+              style={styles.botao2}
+              onPress={() => {
+                navigation.navigate("Login");
+              }}
             >
-              <Text style={styles.text}>Cadastrar</Text>
+              <Text style={styles.text2}>Já possui uma conta?</Text>
             </TouchableOpacity>
-
-            <View style={styles.viewB}>
-              <TouchableOpacity
-                style={styles.botao2}
-                onPress={() => {
-                  navigation.navigate("Login");
-                }}
-              >
-                <Text style={styles.text2}>Já possui uma conta?</Text>
-              </TouchableOpacity>
-            </View>
+          </View>
         </View>
       </ImageBackground>
     </View>
-
   );
-  }
+}

@@ -8,17 +8,33 @@ import {
   StatusBar,
 } from "react-native";
 
-import { Input } from "react-native-elements";
-
-import styles from "../styles/Slogin";
-
-import Icon from "react-native-vector-icons/MaterialIcons";
+import { useForm, Controller } from "react-hook-form";
 import { useState } from "react";
+import { yupResolver } from "@hookform/resolvers/yup";
+import * as yup from "yup";
+
+import { Input } from "react-native-elements";
+import styles from "../styles/Slogin";
+import Icon from "react-native-vector-icons/MaterialIcons";
 
 export default function Login({ navigation }) {
+  const schema = yup.object({
+    email: yup.string().email("Email inválido").required("Digite seu email"),
+    senha: yup.string().required("Digite sua senha"),
+  });
 
-  const [login, setLogin] = useState('');
-  const [senha, setSenha] = useState('');
+  const {
+    control,
+    handleSubmit,
+    formState: { errors },
+  } = useForm({
+    resolver: yupResolver(schema),
+  });
+
+  function handleSignIn(data) {
+    console.log(data);
+    navigation.navigate("Home")
+  }
 
   return (
     <View style={styles.container}>
@@ -35,54 +51,76 @@ export default function Login({ navigation }) {
         blurRadius={1}
       >
         <View style={styles.container2}>
-            <Text style={styles.title}>Login</Text>
+          <Text style={styles.title}>Login</Text>
 
-            <Input
-              style={styles.input}
-              placeholder="Digite seu email"
-              placeholderTextColor="black"
-              leftIcon={<Icon name="email" color="black" size={24} />}
-            />
+          <Controller
+            control={control}
+            name={"email"}
+            render={({ field: { onChange, value } }) => (
+              <Input
+                style={styles.input}
+                placeholder="Digite seu email"
+                placeholderTextColor="black"
+                autoCapitalize="none"
+                keyboardType="email-address"
+                value={value}
+                onChangeText={onChange}
+                leftIcon={<Icon name="email" color="black" size={24} />}
+              />
+            )}
+          />
+          {errors.email && (
+            <Text style={styles.inputError}>{errors.email?.message}</Text>
+          )}
 
-            <Input
-              style={styles.input}
-              placeholder="Digite sua senha"
-              placeholderTextColor="black"
-              secureTextEntry={true}
-              leftIcon={<Icon name="lock" color="black" size={24} />}
-              color={'black'}
-            />
+          <Controller
+            control={control}
+            name={"senha"}
+            render={({ field: { onChange, value } }) => (
+              <Input
+                style={styles.input}
+                placeholder="Digite sua senha"
+                placeholderTextColor="black"
+                autoCapitalize="none"
+                secureTextEntry={true}
+                value={value}
+                onChangeText={onChange}
+                leftIcon={<Icon name="lock" color="black" size={24} />}
+              />
+            )}
+          />
+          {errors.senha && (
+            <Text style={styles.inputError}>{errors.senha?.message}</Text>
+          )}
 
+          <TouchableOpacity
+            style={styles.botao}
+            onPress={handleSubmit(handleSignIn)}
+          >
+            <Text style={styles.text}>Entrar</Text>
+          </TouchableOpacity>
+
+          <View style={styles.viewB}>
             <TouchableOpacity
-              style={styles.botao}
+              style={styles.botao2}
               onPress={() => {
-                navigation.navigate("Home");
+                navigation.navigate("Cadastro");
               }}
             >
-              <Text style={styles.text}>Entrar</Text>
+              <Text style={styles.text2}>Não possui cadastro?</Text>
             </TouchableOpacity>
+          </View>
 
-            <View style={styles.viewB}>
-              <TouchableOpacity
-                style={styles.botao2}
-                onPress={() => {
-                  navigation.navigate("Cadastro");
-                }}
-              >
-                <Text style={styles.text2}>Não possui cadastro?</Text>
-              </TouchableOpacity>
-            </View>
-
-            <View style={styles.viewC}>
-              <TouchableOpacity
-                style={styles.botao3}
-                onPress={() => {
-                  Alert.alert("Restauração de senha", "Em breve...");
-                }}
-              >
-                <Text style={styles.text2}>Esqueceu sua senha?</Text>
-              </TouchableOpacity>
-            </View>
+          <View style={styles.viewC}>
+            <TouchableOpacity
+              style={styles.botao3}
+              onPress={() => {
+                Alert.alert("Restauração de senha", "Em breve...");
+              }}
+            >
+              <Text style={styles.text2}>Esqueceu sua senha?</Text>
+            </TouchableOpacity>
+          </View>
         </View>
       </ImageBackground>
     </View>
