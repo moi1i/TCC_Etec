@@ -1,4 +1,3 @@
-import { useState } from "react";
 import {
   View,
   TouchableOpacity,
@@ -21,26 +20,45 @@ import styles from "../styles/SCadastro";
 import api from "../api/Api";
 
 export default function Cadastro({ navigation }) {
+  //Mensagens de erro da validação
   const schema = yup.object({
     nome: yup.string().required("Digite seu nome"),
-    email: yup.string().email("Email inválido").required("Digite seu email"),
-    senha: yup.string()
+    login: yup.string().email("Email inválido").required("Digite seu email"),
+    senha: yup
+      .string()
       .min(6, "A senha deve ter pelo menos 6 caracteres")
       .required("Digite uma senha"),
-    confirmarSenha: yup.string()
-     .oneOf([yup.ref('senha'), null], 'As senhas não são iguais')
+      confirmarSenha: yup
+      .string()
+      .oneOf([yup.ref("senha"), null], "As senhas não são iguais"),
   });
+
   const {
     control,
+    register,
     handleSubmit,
     formState: { errors },
   } = useForm({
-    resolver: yupResolver(schema),
+    resolver: yupResolver(schema)
   });
 
-  function handleSignIn(data) {
-    console.log(data);
-  }
+  //Conexão com a ap
+  const onSubmit = async (data) => {
+    try {
+      const response = await api.post("/usuarios/save", data);
+      //console.log(data);
+
+      if (response.status === 200) {
+        Alert.alert("Sucesso", "Cadastro efetuado com sucesso!!");
+      } else {
+        throw new Error("Erro desconhecido.");
+      }
+    } catch (err) {
+      Alert.alert("Erro", "deu ruim");
+      setIsLoading(false);
+    }
+  };
+
 
   return (
     <View style={styles.container}>
@@ -62,7 +80,7 @@ export default function Cadastro({ navigation }) {
           <Controller
             control={control}
             name={"nome"}
-            render={({ field: { onChange, value } }) => (
+            render={({field: { onChange, value }}) => (
               <Input
                 style={styles.input}
                 placeholder="Digite seu nome"
@@ -74,14 +92,14 @@ export default function Cadastro({ navigation }) {
               />
             )}
           />
-          {errors.nome && (
+       {errors.nome && (
             <Text style={styles.inputError}>{errors.nome?.message}</Text>
           )}
 
           <Controller
             control={control}
-            name={"email"}
-            render={({ field: { onChange, value } }) => (
+            name={"login"}
+            render={({field: { onChange, value }}) => (
               <Input
                 style={styles.input}
                 placeholder="Digite seu email"
@@ -94,8 +112,9 @@ export default function Cadastro({ navigation }) {
               />
             )}
           />
-           {errors.email && (
-            <Text style={styles.inputError}>{errors.email?.message}</Text>
+
+          {errors.login && (
+            <Text style={styles.inputError}>{errors.login?.message}</Text>
           )}
 
           <Controller
@@ -117,7 +136,6 @@ export default function Cadastro({ navigation }) {
           {errors.senha && (
             <Text style={styles.inputError}>{errors.senha?.message}</Text>
           )}
-          
 
           <Controller
             control={control}
@@ -136,13 +154,14 @@ export default function Cadastro({ navigation }) {
             )}
           />
           {errors.confirmarSenha && (
-            <Text style={styles.inputError}>{errors.confirmarSenha?.message}</Text>
+            <Text style={styles.inputError}>
+              {errors.confirmarSenha?.message}
+            </Text>
           )}
-        
 
           <TouchableOpacity
             style={styles.botao}
-            onPress={handleSubmit(handleSignIn)}
+            onPress={handleSubmit(onSubmit)}
           >
             <Text style={styles.text}>Cadastrar</Text>
           </TouchableOpacity>

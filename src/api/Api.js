@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 const api = axios.create({
-   baseURL: "http://20.226.4.122:8080/api"
+   baseURL: "https://drug-tcc-pablo.herokuapp.com"
 });
 
 export default api;
