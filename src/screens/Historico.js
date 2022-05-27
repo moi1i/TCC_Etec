@@ -1,3 +1,4 @@
+//Importando Componentes do React-Native
 import {
   View,
   TouchableOpacity,
@@ -6,7 +7,9 @@ import {
   Alert,
 } from "react-native";
 
+//Importando Ícones do MaterialIcons do react-native-vector-icons
 import Icon from "react-native-vector-icons/MaterialIcons";
+//Importando styles
 import styles from "../styles/SHistorico";
 
 export default function Historico({navigation}) {

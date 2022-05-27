@@ -1,48 +1,59 @@
+//Importando Componentes do React-Native
 import {
   View,
   TouchableOpacity,
   Text,
   ImageBackground,
-  ScrollView,
   StatusBar,
   Alert,
 } from "react-native";
 
+//Importação React-Hook-Form
 import { useForm, Controller } from "react-hook-form";
+
+//Importação Yup
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 
+//Importando caixa de texto do React Native Elements
 import { Input } from "react-native-elements";
+//Importando Ícones do MaterialIcons do react-native-vector-icons
 import Icon from "react-native-vector-icons/MaterialIcons";
-
+//Importando styles
 import styles from "../styles/SCadastro";
 
+//API
 import api from "../api/Api";
 
+
 export default function Cadastro({ navigation }) {
-  //Mensagens de erro da validação
+  //Validando o formulário e exibindo mensagens de erro com Yup
   const schema = yup.object({
-    nome: yup.string().required("Digite seu nome"),
+    nome: yup.string()
+    .required("Digite seu nome")
+    .min(3, "O nome deve ter pelo menos 3 caracteres")
+    .max(70, "O nome deve ter no máximo 70 caracteres"),
     login: yup.string().email("Email inválido").required("Digite seu email"),
     senha: yup
       .string()
       .min(6, "A senha deve ter pelo menos 6 caracteres")
+      .max(24, "A senha deve ter no máximo 24 caracteres")
       .required("Digite uma senha"),
       confirmarSenha: yup
       .string()
       .oneOf([yup.ref("senha"), null], "As senhas não são iguais"),
   });
 
+
   const {
     control,
-    register,
     handleSubmit,
     formState: { errors },
   } = useForm({
-    resolver: yupResolver(schema)
+    resolver: yupResolver(schema) //Falando pro React-Hook-Form que a validação vai ser pelo Yup
   });
 
-  //Conexão com a ap
+  //Conexão com a api
   const onSubmit = async (data) => {
     try {
       const response = await api.post("/usuarios/save", data);

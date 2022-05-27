@@ -19,7 +19,7 @@ const styles = StyleSheet.create({
       color: 'black',
     },
   frasesView: {
-      flex: 0.38,
+      flex: 0.37,
       justifyContent: "center",
       alignItems: "center",
       alignSelf: "center",

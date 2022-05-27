@@ -1,20 +1,25 @@
+//Importando Componentes do React-Native
 import {
   View,
   TouchableOpacity,
   Text,
   Alert,
   ImageBackground,
-  ScrollView,
   StatusBar,
 } from "react-native";
 
+//Importação React-Hook-Form
 import { useForm, Controller } from "react-hook-form";
-import { useState } from "react";
+
+//Importação Yup
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 
+//Importando caixa de texto do React Native Elements
 import { Input } from "react-native-elements";
+//Importando styles
 import styles from "../styles/Slogin";
+//Importando Ícones do MaterialIcons do react-native-vector-icons
 import Icon from "react-native-vector-icons/MaterialIcons";
 
 export default function Login({ navigation }) {

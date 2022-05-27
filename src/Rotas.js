@@ -3,12 +3,12 @@ import React from "react";
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 
-//Importando as telas
-import Home from "./Components/Home";
-import Lembrete from "./Components/Lembrete";
-import Historico from "./Components/Historico";
-import Login from "./Components/Login";
-import Cadastro from "./Components/Cadastro";
+//Importando as telasComponents
+import Home from "./screens/Home";
+import Lembrete from "./screens/Lembrete";
+import Historico from "./screens/Historico";
+import Login from "./screens/Login";
+import Cadastro from "./screens/Cadastro";
 
 const Stack = createNativeStackNavigator();
 

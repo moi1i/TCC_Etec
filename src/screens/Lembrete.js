@@ -1,3 +1,4 @@
+//Importando Componentes do React-Native
 import {
   View,
   TouchableOpacity,
@@ -5,8 +6,9 @@ import {
   TextInput,
 } from "react-native";
 
+//Importando Ícones do MaterialIcons do react-native-vector-iconss
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
-
+//Importando styles
 import styles from "../styles/SLembrete";
 
 export default function Lembrete({ navigation }) {

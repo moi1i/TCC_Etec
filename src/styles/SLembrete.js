@@ -14,7 +14,7 @@ const styles = StyleSheet.create({
     marginTop: 40,
     marginLeft: 20,
     borderRadius: 10,
-    padding: 15,
+    padding: 14,
     elevation: 2,
   },
   title: {
@@ -65,7 +65,7 @@ const styles = StyleSheet.create({
   },
   input: {
     width: 280,
-    padding: 15,
+    padding: 13,
     borderRadius: 15,
   },
   scroll: {
@@ -74,7 +74,7 @@ const styles = StyleSheet.create({
   },
   botao: {
     backgroundColor: "#fae278",
-    padding: 20,
+    padding: 17,
     marginVertical: 30,
     width: 140,
     alignItems: "center",

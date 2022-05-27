@@ -1,3 +1,4 @@
+//Importando Componentes do React-Native
 import React, { useRef, useState } from "react";
 import {
   View,
@@ -9,7 +10,9 @@ import {
   DrawerLayoutAndroid,
 } from "react-native";
 
+//Importando Ícones do MaterialIcons do react-native-vector-icons
 import Icon from "react-native-vector-icons/MaterialIcons";
+//Importando styles
 import styles from "../styles/SHome";
 
 export default function Home({ navigation }) {
