@@ -11,7 +11,7 @@ import {
 //Importação React-Hook-Form
 import { useForm, Controller } from "react-hook-form";
 
-//Importação Yup
+//Importando Yup
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 

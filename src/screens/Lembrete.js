@@ -8,7 +8,7 @@ import {
 
 //Importando Ícones do MaterialIcons do react-native-vector-iconss
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
-//Importando styles
+//Importando  styles 
 import styles from "../styles/SLembrete";
 
 export default function Lembrete({ navigation }) {

@@ -9,7 +9,8 @@ import {
 
 //Importando Ícones do MaterialIcons do react-native-vector-icons
 import Icon from "react-native-vector-icons/MaterialIcons";
-//Importando styles
+
+//Importando  styles
 import styles from "../styles/SHistorico";
 
 export default function Historico({navigation}) {
