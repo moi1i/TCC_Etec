@@ -31,6 +31,12 @@ const styles = StyleSheet.create({
       textShadowColor: "#fae588",
       alignSelf: 'center',
   },
+  viewInput:{
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginHorizontal: 10,
+    marginRight: 20, 
+  },
   input: {
     borderRadius: 10,
     width: 250,

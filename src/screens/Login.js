@@ -8,6 +8,8 @@ import {
   StatusBar,
 } from "react-native";
 
+import React, { useState } from "react";
+
 //Importação React-Hook-Form
 import { useForm, Controller } from "react-hook-form";
 
@@ -36,10 +38,38 @@ export default function Login({ navigation }) {
     resolver: yupResolver(schema),
   });
 
-  function handleSignIn(data) {
-    console.log(data);
-    navigation.navigate("Home")
+  //Conexão com a api
+  const onSubmit = async (data) => {
+    try {
+      const response = await api.post("/login", data);
+
+      if (response.status === 200) {
+        Alert.alert("Sucesso", "Logou");
+        console.log(data);
+        navigation.navigate("Home");
+      } else {
+        throw new Error("Erro desconhecido.");
+      }
+    } catch (err) {
+      Alert.alert("Erro", "deu ruim");
+    }
+  };
+
+  /*  function onSubmit(data) {
+    usuarioService.login(data)
+    .then((response)=>{
+      console.log(data)
+      navigation.navigate("Home")
+       
+    }).catch((response)=>{
+      Alert.alert("Erro", "Houve um erro ao logar")
+    })
+    
   }
+*/
+
+//Mostrar ou ocultar a senha
+  const[mostrarSenha, setMostrarSenha] = useState(true)
 
   return (
     <View style={styles.container}>
@@ -78,29 +108,34 @@ export default function Login({ navigation }) {
             <Text style={styles.inputError}>{errors.email?.message}</Text>
           )}
 
-          <Controller
-            control={control}
-            name={"senha"}
-            render={({ field: { onChange, value } }) => (
-              <Input
-                style={styles.input}
-                placeholder="Digite sua senha"
-                placeholderTextColor="black"
-                autoCapitalize="none"
-                secureTextEntry={true}
-                value={value}
-                onChangeText={onChange}
-                leftIcon={<Icon name="lock" color="black" size={24} />}
-              />
-            )}
-          />
+          <View style={styles.viewInput}>
+            <Controller
+              control={control}
+              name={"senha"}
+              render={({ field: { onChange, value } }) => (
+                <Input
+                  style={styles.input}
+                  placeholder="Digite sua senha"
+                  placeholderTextColor="black"
+                  autoCapitalize="none"
+                  secureTextEntry={mostrarSenha}
+                  value={value}
+                  onChangeText={onChange}
+                  leftIcon={<Icon name="lock" color="black" size={24} />}
+                />
+              )}
+            />
+            <TouchableOpacity onPress={ ()=> setMostrarSenha(!mostrarSenha)}>
+              <Icon name="visibility" color="black" size={25} />
+            </TouchableOpacity>
+          </View>
           {errors.senha && (
             <Text style={styles.inputError}>{errors.senha?.message}</Text>
           )}
 
           <TouchableOpacity
             style={styles.botao}
-            onPress={handleSubmit(handleSignIn)}
+            onPress={handleSubmit(onSubmit)}
           >
             <Text style={styles.text}>Entrar</Text>
           </TouchableOpacity>
