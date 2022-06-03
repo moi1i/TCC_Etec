@@ -7,12 +7,10 @@ import {
   StatusBar,
   Alert,
 } from "react-native";
-
 import React, { useState } from "react";
 
 //Importação React-Hook-Form
 import { useForm, Controller } from "react-hook-form";
-
 //Importando Yup
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
@@ -61,9 +59,10 @@ export default function Cadastro({ navigation }) {
       const response = await api.post("/usuarios/save", data);
 
       if (response.status === 200) {
-        Alert.alert("Sucesso", "Cadastro efetuado com sucesso!!");
+        Alert.alert("Sucesso", "Cadastro efetuado com sucesso!!")
+        navigation.navigate('Login')
       } else {
-        throw new Error("Erro desconhecido.");
+        throw new Error("Erro desconhecido.")
       }
     } catch (err) {
       Alert.alert("Erro", "deu ruim");

@@ -8,6 +8,8 @@ import {
   StatusBar,
 } from "react-native";
 
+import { AsyncStorage } from '@react-native-async-storage/async-storage';
+
 import React, { useState } from "react";
 
 //Importação React-Hook-Form
@@ -24,7 +26,12 @@ import styles from "../styles/Slogin";
 //Importando Ícones do MaterialIcons do react-native-vector-icons
 import Icon from "react-native-vector-icons/MaterialIcons";
 
+//API
+import api from "../api/Api";
+
 export default function Login({ navigation }) {
+
+  //Validação com Yup
   const schema = yup.object({
     email: yup.string().email("Email inválido").required("Digite seu email"),
     senha: yup.string().required("Digite sua senha"),
@@ -40,33 +47,26 @@ export default function Login({ navigation }) {
 
   //Conexão com a api
   const onSubmit = async (data) => {
-    try {
-      const response = await api.post("/login", data);
-
-      if (response.status === 200) {
-        Alert.alert("Sucesso", "Logou");
-        console.log(data);
-        navigation.navigate("Home");
-      } else {
-        throw new Error("Erro desconhecido.");
-      }
-    } catch (err) {
-      Alert.alert("Erro", "deu ruim");
-    }
+    api
+      .post('/login', 
+      {
+        login: data.email,
+        senha: data.senha
+      })
+      .then((response) => {
+        //AsyncStorage.setItem("TOKEN", response.data.Authorization)
+        if (response.status == 200) {
+          console.log(data);
+          navigation.navigate("Home");
+        } else {
+          throw new Error("Erro desconhecido.");
+        }
+      })
+      .catch((e) => {
+        Alert.alert('Erro', 'Usuário ou senha inválidos')
+        console.log(e);
+      });
   };
-
-  /*  function onSubmit(data) {
-    usuarioService.login(data)
-    .then((response)=>{
-      console.log(data)
-      navigation.navigate("Home")
-       
-    }).catch((response)=>{
-      Alert.alert("Erro", "Houve um erro ao logar")
-    })
-    
-  }
-*/
 
 //Mostrar ou ocultar a senha
   const[mostrarSenha, setMostrarSenha] = useState(true)

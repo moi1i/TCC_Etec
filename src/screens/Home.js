@@ -1,5 +1,5 @@
 //Importando Componentes do React-Native
-import React, { useRef, } from "react";
+import React, { useRef } from "react";
 import {
   View,
   TouchableOpacity,
@@ -16,6 +16,13 @@ import Icon from "react-native-vector-icons/MaterialIcons";
 import styles from "../styles/SHome";
 
 export default function Home({ navigation }) {
+  const sair = () => {
+    navigation.reset({
+      index: 0,
+      routes: [{ name: "Login" }],
+    });
+  };
+
   const drawer = useRef(null);
   const Menu = () => (
     <View style={styles.viewBotao}>
@@ -23,25 +30,35 @@ export default function Home({ navigation }) {
         <TouchableOpacity
           style={styles.botaoTelas}
           onPress={() => {
-            navigation.navigate('Lembrete')
+            navigation.navigate("Lembrete");
           }}
         >
-           <Icon style={styles.iconMenu} name="add-alarm" color="#fae278" size={40} />
+          <Icon
+            style={styles.iconMenu}
+            name="add-alarm"
+            color="#fae278"
+            size={40}
+          />
           <Text style={styles.textBotao}>Adicionar Lembrete</Text>
         </TouchableOpacity>
         <TouchableOpacity
           style={styles.botaoTelas}
           onPress={() => {
-            navigation.navigate('Historico')
+            navigation.navigate("Historico");
           }}
         >
-           <Icon style={styles.iconMenu} name="history" color="#fae278" size={40} />
+          <Icon
+            style={styles.iconMenu}
+            name="history"
+            color="#fae278"
+            size={40}
+          />
           <Text style={styles.textBotao}>Histórico</Text>
         </TouchableOpacity>
         <TouchableOpacity
           style={styles.botaoSair}
           onPress={() => {
-            navigation.navigate('Login')
+            sair(navigation);
           }}
         >
           <Text style={styles.textBotao2}>Sair</Text>
@@ -65,7 +82,7 @@ export default function Home({ navigation }) {
           resizeMode={"cover"}
         >
           <View style={styles.container}>
-          <Text style={styles.title}>Olá,{"\n"}Usuário</Text>
+            <Text style={styles.title}>Olá,{"\n"}Usuário</Text>
             <View style={styles.frasesView}>
               <Text style={styles.textFrases}>
                 Cuidar da sua saúde mental é algo que somente você pode fazer.
@@ -111,7 +128,7 @@ export default function Home({ navigation }) {
           <View style={styles.row}>
             <TouchableOpacity
               onPress={() => {
-                navigation.navigate('Lembrete')
+                navigation.navigate("Lembrete");
               }}
             >
               <Text>
