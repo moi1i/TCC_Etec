@@ -9,6 +9,7 @@ import Lembrete from "./screens/Lembrete";
 import Historico from "./screens/Historico";
 import Login from "./screens/Login";
 import Cadastro from "./screens/Cadastro";
+import LoginToken from "./screens/LoginToken";
 
 const Stack = createNativeStackNavigator();
 
@@ -17,9 +18,12 @@ const Rotas = () => {
     //Criando as rotas
     <NavigationContainer>
       <Stack.Navigator
-        //Definindo a primeira tela que vai aparecer
-        initialRouteName="Login"
       >
+        <Stack.Screen 
+        name="LoginToken"
+        component={LoginToken}
+        options={{ headerShown: false }}
+        />
         <Stack.Screen
           name="Home"
           component={Home}

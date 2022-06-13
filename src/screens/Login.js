@@ -8,9 +8,7 @@ import {
   StatusBar,
 } from "react-native";
 
-import { AsyncStorage } from '@react-native-async-storage/async-storage';
-
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 
 //Importação React-Hook-Form
 import { useForm, Controller } from "react-hook-form";
@@ -28,6 +26,7 @@ import Icon from "react-native-vector-icons/MaterialIcons";
 
 //API
 import api from "../api/Api";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 export default function Login({ navigation }) {
 
@@ -53,8 +52,10 @@ export default function Login({ navigation }) {
         login: data.email,
         senha: data.senha
       })
-      .then((response) => {
-        //AsyncStorage.setItem("TOKEN", response.data.Authorization)
+
+      .then(async (response) => {
+        await AsyncStorage.setItem("token", response.data.Authorization)
+        //console.log(response.data.Authorization);
         if (response.status == 200) {
           console.log(data);
           navigation.navigate("Home");
@@ -68,6 +69,8 @@ export default function Login({ navigation }) {
       });
   };
 
+
+ 
 //Mostrar ou ocultar a senha
   const[mostrarSenha, setMostrarSenha] = useState(true)
 

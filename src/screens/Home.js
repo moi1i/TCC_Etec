@@ -1,4 +1,5 @@
 //Importando Componentes do React-Native
+import AsyncStorage from "@react-native-async-storage/async-storage";
 import React, { useRef } from "react";
 import {
   View,
@@ -16,13 +17,6 @@ import Icon from "react-native-vector-icons/MaterialIcons";
 import styles from "../styles/SHome";
 
 export default function Home({ navigation }) {
-  const sair = () => {
-    navigation.reset({
-      index: 0,
-      routes: [{ name: "Login" }],
-    });
-  };
-
   const drawer = useRef(null);
   const Menu = () => (
     <View style={styles.viewBotao}>
@@ -58,7 +52,8 @@ export default function Home({ navigation }) {
         <TouchableOpacity
           style={styles.botaoSair}
           onPress={() => {
-            sair(navigation);
+            AsyncStorage.removeItem("token");
+            navigation.navigate("Login");
           }}
         >
           <Text style={styles.textBotao2}>Sair</Text>
@@ -72,7 +67,7 @@ export default function Home({ navigation }) {
       drawerBackgroundColor="white"
       ref={drawer}
       drawerWidth={250}
-      drawerPosition={"left"}
+      drawerPosition={"right"}
       renderNavigationView={Menu}
     >
       <View style={styles.container}>
@@ -126,6 +121,8 @@ export default function Home({ navigation }) {
             </View>
           </View>
           <View style={styles.row}>
+          
+
             <TouchableOpacity
               onPress={() => {
                 navigation.navigate("Lembrete");

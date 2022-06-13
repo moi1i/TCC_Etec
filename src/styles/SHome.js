@@ -72,9 +72,14 @@ const styles = StyleSheet.create({
     width: '100%'
   },
   row:{
+      alignItems: 'center',
+      flexDirection: 'row',
       alignSelf: 'center',
       justifyContent: 'flex-end',
       marginTop: 10,
+  },
+  iconRow: {
+    marginRight: 10,
   },
   //Menu
   viewBotao: {
