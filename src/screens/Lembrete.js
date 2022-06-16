@@ -33,12 +33,11 @@ export default function Lembrete({ navigation }) {
       )
       .max(30, "O nome do medicamento deve ter no máximo 30 caracteres"),
     quantidade: yup
-      .string()
+      .number()
+      .typeError("Digite a quantidade de medicamentos")
       .required("Digite a quantidade de medicamentos")
-      .matches(
-        /^[aA-zZ\s]+$/,
-        "Sem caracteres especiais"
-      ),
+      .integer("Somente números inteiros")
+      .positive("Somente números positivos"),
   });
 
   const {
@@ -102,8 +101,9 @@ export default function Lembrete({ navigation }) {
               render={({ field: { onChange, value } }) => (
                 <TextInput
                   style={styles.input}
-                  placeholder='"2"'
+                  placeholder='2'
                   autoCapitalize="none"
+                  keyboardType="numeric"
                   value={value}
                   onChangeText={onChange}
                 />
