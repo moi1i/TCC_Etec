@@ -11,7 +11,6 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     backgroundColor: "#fae278",
     alignSelf: "flex-start",
-    marginTop: 40,
     marginLeft: 20,
     borderRadius: 10,
     padding: 14,
@@ -29,14 +28,21 @@ const styles = StyleSheet.create({
     fontWeight: "600",
     color: "black",
     fontSize: 18,
-    marginTop: 40,
+    marginTop: 16,
     alignSelf: "flex-start",
+  },
+  textN: {
+    fontWeight: "600",
+    color: "black",
+    fontSize: 18,
+    marginTop: 35,
+    alignSelf: "flex-start",
+    marginLeft: 12
   },
   text3: {
     fontWeight: "600",
     color: "black",
     fontSize: 18,
-    marginTop: 20,
     alignSelf: "flex-start",
   },
   text2: {
@@ -65,8 +71,14 @@ const styles = StyleSheet.create({
   },
   input: {
     width: 280,
-    padding: 13,
+    padding: 12,
     borderRadius: 15,
+  },
+  inputError: {
+    fontSize: 13,
+    alignSelf: 'flex-start',
+    color: '#ff375b',
+    marginBottom: 5,
   },
   scroll: {
     width: '100%',
@@ -74,8 +86,7 @@ const styles = StyleSheet.create({
   },
   botao: {
     backgroundColor: "#fae278",
-    padding: 17,
-    marginVertical: 30,
+    padding: 16,
     width: 140,
     alignItems: "center",
     borderRadius: 11,
