@@ -1,6 +1,7 @@
 //Importando Componentes do React-Native
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import React, { useRef } from "react";
+import { useEffect, useState } from "react";
 import {
   View,
   TouchableOpacity,
@@ -13,11 +14,36 @@ import {
 
 //Importando Ícones do MaterialIcons do react-native-vector-icons
 import Icon from "react-native-vector-icons/MaterialIcons";
+import api from "../api/Api";
 //Importando styles
 import styles from "../styles/SHome";
 
 export default function Home({ navigation }) {
   const drawer = useRef(null);
+
+  const [remedio, setRemedio] = useState([]);
+
+  useEffect(() => {
+    const remedioToken = async () => {
+      const token = await AsyncStorage.getItem("token");
+
+      if (token) {
+        try {
+          const data = await api.get("/remedios", {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          });
+          console.log(data.data);
+          setRemedio(data.data);
+        } catch (error) {
+          console.log(error);
+        }
+      }
+    };
+    remedioToken();
+  }, []);
+
   const Menu = () => (
     <View style={styles.viewBotao}>
       <View style={[styles.containerMenu]}>
@@ -77,52 +103,64 @@ export default function Home({ navigation }) {
           resizeMode={"cover"}
         >
           <View style={styles.container}>
-            <Text style={styles.title}>Olá,{"\n"}Usuário</Text>
+            <Text style={styles.title}>Olá,</Text>
             <View style={styles.frasesView}>
               <Text style={styles.textFrases}>
                 Cuidar da sua saúde mental é algo que somente você pode fazer.
               </Text>
             </View>
+
             <Text style={styles.text}>Medicamentos de hoje</Text>
 
             <View style={styles.containerList}>
               <FlatList
-                data={[
-                  { key: "Remédio" },
-                  { key: "Remédio0" },
-                  { key: "Remédio1" },
-                  { key: "Remédio2" },
-                  { key: "Remédio3" },
-                  { key: "Remédio4" },
-                ]}
-                renderItem={({ item }) => (
-                  <View style={styles.viewList}>
-                    <View style={styles.viewRemedio}>
+                data={remedio}
+                keyExtractor={(item) => item.id}
+                renderItem={({ item }) => {
+                  return (
+                    <View style={styles.viewList}>
+                      <View style={styles.viewRemedio}>
+                        <TouchableOpacity
+                          style={styles.botaoIcon}
+                          onPress={() => {
+                            Alert.alert(
+                              "Excluído",
+                              "Lembrete excluido com sucesso!!"
+                            );
+                          }}
+                        >
+                          <Text>
+                            <Icon name="delete" color="#868684" size={25} />
+                          </Text>
+                        </TouchableOpacity>
+                      </View>
+                      <Text>
+                        {item.titulo}
+                        {"\n"}Data: {item.dataLembreteRemedio}
+                        {"\n"}Horário: {item.horarioLembreteRemedio}
+                      </Text>
+                      <View style={styles.viewCheck}>
                       <TouchableOpacity
-                        style={styles.botaoIcon}
-                        onPress={() => {
-                          Alert.alert(
-                            "Excluído",
-                            "Lembrete excluido com sucesso!!"
-                          );
-                        }}
-                      >
-                        <Text>
-                          <Icon name="delete" color="#868684" size={25} />
-                        </Text>
-                      </TouchableOpacity>
+                          style={styles.botaoCheck}
+                          onPress={() => {
+                            Alert.alert(
+                              "Certo",
+                              "Remédio adicionado ao histórico"
+                            );
+                          }}
+                        >
+                          <Text>
+                            <Icon name="check-box" color="green" size={25} />
+                          </Text>
+                        </TouchableOpacity>
+                        </View>
                     </View>
-                    <Text>
-                      {item.key} {"\n"}3:00 PM
-                    </Text>
-                  </View>
-                )}
+                  );
+                }}
               ></FlatList>
             </View>
           </View>
           <View style={styles.row}>
-          
-
             <TouchableOpacity
               onPress={() => {
                 navigation.navigate("Lembrete");

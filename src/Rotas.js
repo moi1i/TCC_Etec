@@ -10,6 +10,7 @@ import Historico from "./screens/Historico";
 import Login from "./screens/Login";
 import Cadastro from "./screens/Cadastro";
 import LoginToken from "./screens/LoginToken";
+import TesteNotif from "./screens/TesteNotif"
 
 const Stack = createNativeStackNavigator();
 
@@ -28,6 +29,11 @@ const Rotas = () => {
           name="Home"
           component={Home}
           options={{ headerShown: false }}
+        />
+          <Stack.Screen 
+        name="TesteNotif"
+        component={TesteNotif}
+        options={{ headerShown: false }}
         />
         <Stack.Screen
           name="Lembrete"

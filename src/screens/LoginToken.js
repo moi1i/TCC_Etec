@@ -18,7 +18,7 @@ const LoginToken = ({ navigation }) => {
                      Authorization: `Bearer ${token}`
                   }
                }); 
-               console.log(data.data);
+               //console.log(data.data);
                navigation.navigate("Home")
             } catch (error) {
                navigation.navigate("Login");
