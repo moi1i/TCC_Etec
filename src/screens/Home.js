@@ -1,5 +1,6 @@
 //Importando Componentes do React-Native
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import axios from "axios";
 import React, { useRef } from "react";
 import { useEffect, useState } from "react";
 import {
@@ -10,6 +11,8 @@ import {
   Alert,
   ImageBackground,
   DrawerLayoutAndroid,
+  RefreshControl,
+  ToastAndroid,
 } from "react-native";
 
 //Importando Ícones do MaterialIcons do react-native-vector-icons
@@ -22,20 +25,22 @@ export default function Home({ navigation }) {
   const drawer = useRef(null);
 
   const [remedio, setRemedio] = useState([]);
+  const [refreshing, setRefreshing] = useState(false);
 
   useEffect(() => {
     const remedioToken = async () => {
       const token = await AsyncStorage.getItem("token");
+      const email = await AsyncStorage.getItem("email");
 
       if (token) {
         try {
-          const data = await api.get("/remedios", {
+          const data = await api.get(`/usuarios/email/${email}`, {
             headers: {
               Authorization: `Bearer ${token}`,
             },
           });
-          console.log(data.data);
-          setRemedio(data.data);
+          //console.log("daattaa", data.data);
+          setRemedio(data.data.remedios);
         } catch (error) {
           console.log(error);
         }
@@ -43,6 +48,53 @@ export default function Home({ navigation }) {
     };
     remedioToken();
   }, []);
+
+  const onDelete = async (data) => {
+    const token = await AsyncStorage.getItem("token");
+    const email = await AsyncStorage.getItem("email");
+    const headers = {
+      Authorization: `Bearer ${token}`,
+    };
+
+    if (token) {
+      await api
+        .get(`/usuarios/email/${email}`, {
+          headers: headers,
+        })
+        .then((response) => {
+          api.delete(`/remedios/delete/${response.data.remedios[0].id}`, {
+            headers: headers,
+          });
+          ToastAndroid.show(
+            "Lembrete deletado. Recarregue a lista arrastando a mesma para baixo",
+            ToastAndroid.LONG
+          );
+        });
+    }
+  };
+
+  const onRefresh = React.useCallback(async () => {
+    setRefreshing(true);
+    const refreshRemedioToken = async () => {
+      const token = await AsyncStorage.getItem("token");
+      const email = await AsyncStorage.getItem("email");
+      if (token) {
+        try {
+          const data = await api.get(`/usuarios/email/${email}`, {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          });
+          console.log(data.data);
+          setRemedio(data.data.remedios);
+          setRefreshing(false);
+        } catch (error) {
+          console.log(error);
+        }
+      }
+    };
+    refreshRemedioToken();
+  }, [refreshing]);
 
   const Menu = () => (
     <View style={styles.viewBotao}>
@@ -103,7 +155,7 @@ export default function Home({ navigation }) {
           resizeMode={"cover"}
         >
           <View style={styles.container}>
-            <Text style={styles.title}>Olá,</Text>
+            <Text style={styles.title}>Olá, {"\n"}Bem-vindo</Text>
             <View style={styles.frasesView}>
               <Text style={styles.textFrases}>
                 Cuidar da sua saúde mental é algo que somente você pode fazer.
@@ -115,47 +167,51 @@ export default function Home({ navigation }) {
             <View style={styles.containerList}>
               <FlatList
                 data={remedio}
+                extraData={remedio}
                 keyExtractor={(item) => item.id}
-                renderItem={({ item }) => {
-                  return (
-                    <View style={styles.viewList}>
-                      <View style={styles.viewRemedio}>
-                        <TouchableOpacity
-                          style={styles.botaoIcon}
-                          onPress={() => {
-                            Alert.alert(
-                              "Excluído",
-                              "Lembrete excluido com sucesso!!"
-                            );
-                          }}
-                        >
-                          <Text>
-                            <Icon name="delete" color="#868684" size={25} />
-                          </Text>
-                        </TouchableOpacity>
-                      </View>
-                      <Text>
-                        {item.titulo}
-                        {"\n"}Data: {item.dataLembreteRemedio}
-                        {"\n"}Horário: {item.horarioLembreteRemedio}
-                      </Text>
-                      <View style={styles.viewCheck}>
-                      <TouchableOpacity
-                          style={styles.botaoCheck}
-                          onPress={() => {
-                            Alert.alert(
-                              "Certo",
-                              "Remédio adicionado ao histórico"
-                            );
-                          }}
-                        >
-                          <Text>
-                            <Icon name="check-box" color="green" size={25} />
-                          </Text>
-                        </TouchableOpacity>
+                refreshControl={
+                  <RefreshControl
+                    refreshing={refreshing}
+                    onRefresh={onRefresh}
+                  />
+                }
+                renderItem={({ item }) => {    
+                    return (
+                      <View style={styles.viewList}>
+                        <View style={styles.viewRemedio}>
+                          <TouchableOpacity
+                            style={styles.botaoIcon}
+                            onPress={() => {
+                              onDelete();
+                            }}
+                          >
+                            <Text>
+                              <Icon name="delete" color="#868684" size={25} />
+                            </Text>
+                          </TouchableOpacity>
                         </View>
-                    </View>
-                  );
+                        <Text style={styles.textList}>
+                          {item.titulo}
+                          {"\n"}Data: {item.dataLembreteRemedio}
+                          {"\n"}Horário: {item.horarioLembreteRemedio}
+                        </Text>
+                        <View style={styles.viewCheck}>
+                          <TouchableOpacity
+                            style={styles.botaoCheck}
+                            onPress={() => {
+                              Alert.alert(
+                                "Certo",
+                                "Remédio adicionado ao histórico"
+                              );
+                            }}
+                          >
+                            <Text>
+                              <Icon name="check-box" color="green" size={25} />
+                            </Text>
+                          </TouchableOpacity>
+                        </View>
+                      </View>
+                    );
                 }}
               ></FlatList>
             </View>

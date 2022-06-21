@@ -29,7 +29,6 @@ import api from "../api/Api";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
 export default function Login({ navigation }) {
-
   //Validação com Yup
   const schema = yup.object({
     email: yup.string().email("Email inválido").required("Digite seu email"),
@@ -47,32 +46,31 @@ export default function Login({ navigation }) {
   //Conexão com a api
   const onSubmit = async (data) => {
     api
-      .post('/login', 
-      {
+      .post("/login", {
         login: data.email,
-        senha: data.senha
+        senha: data.senha,
       })
 
       .then(async (response) => {
-        await AsyncStorage.setItem("token", response.data.Authorization)
+        await AsyncStorage.setItem("token", response.data.Authorization);
         //console.log(response.data.Authorization);
+
         if (response.status == 200) {
-          console.log(data);
+          console.log(response.data);
+          await AsyncStorage.setItem("email", data.email);
           navigation.navigate("Home");
         } else {
           throw new Error("Erro desconhecido.");
         }
       })
       .catch((e) => {
-        Alert.alert('Erro', 'Usuário ou senha inválidos')
+        Alert.alert("Erro", "Usuário ou senha inválidos");
         console.log(e);
       });
   };
 
-
- 
-//Mostrar ou ocultar a senha
-  const[mostrarSenha, setMostrarSenha] = useState(true)
+  //Mostrar ou ocultar a senha
+  const [mostrarSenha, setMostrarSenha] = useState(true);
 
   return (
     <View style={styles.container}>
@@ -128,7 +126,7 @@ export default function Login({ navigation }) {
                 />
               )}
             />
-            <TouchableOpacity onPress={ ()=> setMostrarSenha(!mostrarSenha)}>
+            <TouchableOpacity onPress={() => setMostrarSenha(!mostrarSenha)}>
               <Icon name="visibility" color="black" size={25} />
             </TouchableOpacity>
           </View>
@@ -151,17 +149,6 @@ export default function Login({ navigation }) {
               }}
             >
               <Text style={styles.text2}>Não possui cadastro?</Text>
-            </TouchableOpacity>
-          </View>
-
-          <View style={styles.viewC}>
-            <TouchableOpacity
-              style={styles.botao3}
-              onPress={() => {
-                Alert.alert("Restauração de senha", "Em breve...");
-              }}
-            >
-              <Text style={styles.text2}>Esqueceu sua senha?</Text>
             </TouchableOpacity>
           </View>
         </View>

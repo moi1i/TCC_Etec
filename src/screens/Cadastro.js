@@ -32,7 +32,7 @@ export default function Cadastro({ navigation }) {
       .string()
       .required("Digite seu nome")
       .min(3, "O nome deve ter pelo menos 3 caracteres")
-      .matches(/^[aA-zZ\s]+$/, "O nome não pode ter caracteres especiais")
+      .matches(/^[aA-zZ 0-9\s]+$/, "O nome não pode ter caracteres especiais")
       .max(70, "O nome deve ter no máximo 70 caracteres"),
     login: yup.string().email("Email inválido").required("Digite seu email"),
     senha: yup
@@ -57,6 +57,9 @@ export default function Cadastro({ navigation }) {
   const onSubmit = async (data) => {
     try {
       const response = await api.post("/usuarios/save", data);
+
+      console.log("esse daq", response.data);
+
 
       if (response.status === 200) {
         Alert.alert("Sucesso", "Cadastro efetuado com sucesso!!")

@@ -93,6 +93,15 @@ const styles = StyleSheet.create({
     elevation: 1,
     alignSelf: "center",
   },
+  botao2: {
+    backgroundColor: "#fae278",
+    padding: 13,
+    alignItems: "center",
+    borderRadius: 11,
+    elevation: 1,
+    alignSelf: "center",
+    marginHorizontal: 10,
+  },
   container2: {
     width: '100%',
     borderRadius: 25,

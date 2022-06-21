@@ -6,8 +6,8 @@ import {
   TextInput,
   StatusBar,
   StyleSheet,
+  ToastAndroid,
   Alert,
-  Platform,
 } from "react-native";
 
 //Importação React-Hook-Form
@@ -23,14 +23,16 @@ import styles from "../styles/SLembrete";
 
 import DateTimePicker from "@react-native-community/datetimepicker";
 import api from "../api/Api";
+import { useState } from "react";
 
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { useEffect, useRef } from "react";
 
+//Importando o necessário para fazer a função de notificação
 import * as Device from "expo-device";
 import * as Notifications from "expo-notifications";
-import React, { useState, useEffect, useRef } from "react";
 
-/*
+//Oque a notif vai fazer
 Notifications.setNotificationHandler({
   handleNotification: async () => ({
     shouldShowAlert: true,
@@ -38,11 +40,136 @@ Notifications.setNotificationHandler({
     shouldSetBadge: false,
   }),
 });
-*/
+
 
 export default function Lembrete({ navigation }) {
-  /*
-  //NOTIFICAÇÃO
+  const [isPickerDateShow, setIsPickerDateShow] = useState(false);
+  const [isPickerTimeShow, setIsPickerTimeShow] = useState(false);
+  const [date, setDate] = useState(new Date(Date.now()));
+
+  console.log(date.getHours() - 3);
+
+  const showPickerDate = () => {
+    setIsPickerDateShow(true);
+  };
+
+  const showPickerTime = () => {
+    setIsPickerTimeShow(true);
+  };
+
+  const onChangeDate = (event, value) => {
+    setDate(value);
+    if (Platform.OS === "android") {
+      setIsPickerDateShow(false);
+    }
+  };
+
+  const onChangeTime = (event, value) => {
+    setDate(value);
+    if (Platform.OS === "android") {
+      setIsPickerTimeShow(false);
+    }
+  };
+  let teste = date.toLocaleDateString('pt-BR')
+  let formatDate =
+    ("0" + date.getDate()).slice(-2) +
+    "/" +
+    ("0" + (date.getMonth() + 1)).slice(-2) +
+    "/" +
+    date.getFullYear();
+  let formatTime =
+    ("0" + date.getHours()).slice(-2) + ":" +("0" + date.getMinutes()).slice(-2);
+
+
+  //Validação com Yup
+  const schema = yup.object({
+    titulo: yup
+      .string()
+      .required("Digite o nome do medicamento")
+      .matches(/^[aA-zZ 0-9\s]+$/, "Sem caracteres especiais")
+      .max(30, "O nome do medicamento deve ter no máximo 30 caracteres"),
+    quantidadeMedicamento: yup
+      .number()
+      .typeError("Digite a quantidade de medicamentos")
+      .required("Digite a quantidade de medicamentos")
+      .integer("Somente números inteiros")
+      .positive("Somente números positivos"),
+  });
+
+  const {
+    control,
+    handleSubmit,
+    formState: { errors },
+  } = useForm({
+    resolver: yupResolver(schema),
+  });
+
+  const onSubmit = async (data) => {
+    const token = await AsyncStorage.getItem("token");
+    const email = await AsyncStorage.getItem("email");
+    const headers = {
+      Authorization: `Bearer ${token}`,
+    };
+
+    if (token) {
+      await api
+        .get(`/usuarios/email/${email}`, {
+          headers: headers,
+        })
+        .then((response) => {
+          console.log(response.data.remedios);
+          api.post(
+            "/remedios/save",
+            {
+              titulo: data.titulo,
+              quantidadeMedicamento: data.quantidadeMedicamento,
+              dataLembreteRemedio: formatDate,
+              horarioLembreteRemedio: formatTime,
+              userId: {
+                id: response.data.id,
+              },
+            },
+            { headers: headers }
+          );
+          Alert.alert("Notificação", "Se quiser que notifique no horário de tomar o remédio clique no sino")
+        },
+        );
+    }
+  };
+
+//FUNÇÃO DE NOTIFICAÇÃO
+  async function registerForPushNotificationsAsync() {
+    let token;
+    if (Device.isDevice) {
+      const { status: existingStatus } =
+        await Notifications.getPermissionsAsync();
+      let finalStatus = existingStatus;
+      if (existingStatus !== "granted") {
+        const { status } = await Notifications.requestPermissionsAsync();
+        finalStatus = status;
+      }
+      if (finalStatus !== "granted") {
+        alert("Failed to get push token for push notification!");
+        return;
+      }
+      token = (await Notifications.getExpoPushTokenAsync()).data;
+      console.log(token);
+    } else {
+      alert("Must use physical device for Push Notifications");
+    }
+
+    if (Platform.OS === "android") {
+      Notifications.setNotificationChannelAsync("default", {
+        name: "default",
+        importance: Notifications.AndroidImportance.MAX,
+        vibrationPattern: [0, 250, 250, 250],
+        lightColor: "#FF231F7C",
+      });
+    }
+
+    return token;
+  }
+
   const [expoPushToken, setExpoPushToken] = useState("");
   const [notification, setNotification] = useState(false);
   const notificationListener = useRef();
@@ -71,108 +198,20 @@ export default function Lembrete({ navigation }) {
     };
   }, []);
 
-  //AQUI
   async function schedulePushNotification() {
     await Notifications.scheduleNotificationAsync({
       content: {
-        title: "Notificação",
-        body: "Isso é uma notificação",
-        data: { dataBody: "goes here" },
+        title: "Medicação",
+        body: "Hora de tomar o medicamento 💊",
       },
-      trigger: { seconds: 2 },
+      trigger: { date: date },
     });
+    ToastAndroid.show('Certo, notificaremos no horário da medicação', ToastAndroid.LONG);
   }
 
-  //NOTIFICAÇÃO
-*/
 
-  const [isPickerDateShow, setIsPickerDateShow] = useState(false);
-  const [isPickerTimeShow, setIsPickerTimeShow] = useState(false);
-  const [date, setDate] = useState(new Date(Date.now()));
+  //FUNÇÃO DE NOTIFICAÇÃO
 
-  const showPickerDate = () => {
-    setIsPickerDateShow(true);
-  };
-
-  const showPickerTime = () => {
-    setIsPickerTimeShow(true);
-  };
-
-  const onChangeDate = (event, value) => {
-    setDate(value);
-    if (Platform.OS === "android") {
-      setIsPickerDateShow(false);
-    }
-  };
-
-  const onChangeTime = (event, value) => {
-    setDate(value);
-    if (Platform.OS === "android") {
-      setIsPickerTimeShow(false);
-    }
-  };
-  //let formatTeste = `${date.toLocaleDateString('pt-BR')}`
-  let formatDate =
-    ("0" + date.getDate()).slice(-2) +
-    "/" +
-    ("0" + (date.getMonth() + 1)).slice(-2) +
-    "/" +
-    date.getFullYear();
-  let formatTime =
-    ("0" + date.getHours()).slice(-2) -
-    3 +
-    ":" +
-    ("0" + date.getMinutes()).slice(-2);
-
-  //Validação com Yup
-  const schema = yup.object({
-    titulo: yup
-      .string()
-      .required("Digite o nome do medicamento")
-      .matches(/^[aA-zZ\s]+$/, "Sem caracteres especiais")
-      .max(30, "O nome do medicamento deve ter no máximo 30 caracteres"),
-    quantidadeMedicamento: yup
-      .number()
-      .typeError("Digite a quantidade de medicamentos")
-      .required("Digite a quantidade de medicamentos")
-      .integer("Somente números inteiros")
-      .positive("Somente números positivos"),
-  });
-
-  const {
-    control,
-    handleSubmit,
-    formState: { errors },
-  } = useForm({
-    resolver: yupResolver(schema),
-  });
-
-  const onSubmit = async (data) => {
-    const token = await AsyncStorage.getItem("token");
-
-    const headers = {
-      Authorization: `Bearer ${token}`,
-    };
-
-    const dataBody = {
-      titulo: data.titulo,
-      quantidadeMedicamento: data.quantidadeMedicamento,
-      dataLembreteRemedio: formatDate,
-      horarioLembreteRemedio: formatTime,
-    };
-
-    if (token) {
-      try {
-        api.post("/remedios/save", dataBody, {
-          headers: headers,
-        });
-        console.log(dataBody);
-        Alert.alert("Sucesso!!", "Lembrete adicionado");
-      } catch (error) {
-        console.log(error);
-      }
-    }
-  };
 
   return (
     <View style={styles.container}>
@@ -282,7 +321,7 @@ export default function Lembrete({ navigation }) {
           {/* The date picker */}
           {isPickerTimeShow && (
             <DateTimePicker
-              value={date}
+              value={date }
               mode={"time"}
               display={Platform.OS === "ios" ? "spinner" : "default"}
               is24Hour={true}
@@ -293,57 +332,26 @@ export default function Lembrete({ navigation }) {
         </View>
       </View>
 
-      <TouchableOpacity style={styles.botao} onPress={handleSubmit(onSubmit)}>
-        <Text style={stylesPicker.text}>Adicionar</Text>
-      </TouchableOpacity>
+      <View style={stylesPicker.viewRow}>
+        <TouchableOpacity style={styles.botao} onPress={handleSubmit(onSubmit)}>
+          <Text style={stylesPicker.text}>Adicionar</Text>
+        </TouchableOpacity>
 
-      {/*
-      <TouchableOpacity
-        style={stylesPicker.botao2}
-        onPress={async () => {
-          await schedulePushNotification();
-        }}
-      >
-        <Text style={stylesPicker.text}>Notif</Text>
-      </TouchableOpacity>
-      */}
+        <TouchableOpacity
+          style={styles.botao2}
+          onPress={handleSubmit(async () => {
+            await schedulePushNotification();
+          })}
+        >
+          <Text style={stylesPicker.text}>
+            <Icon name="bell" color="black" size={25} />
+          </Text>
+        </TouchableOpacity>
+      </View>
     </View>
   );
 }
 
-/*
-async function registerForPushNotificationsAsync() {
-  let token;
-  if (Device.isDevice) {
-    const { status: existingStatus } =
-      await Notifications.getPermissionsAsync();
-    let finalStatus = existingStatus;
-    if (existingStatus !== "granted") {
-      const { status } = await Notifications.requestPermissionsAsync();
-      finalStatus = status;
-    }
-    if (finalStatus !== "granted") {
-      alert("Failed to get push token for push notification!");
-      return;
-    }
-    token = (await Notifications.getExpoPushTokenAsync()).data;
-    console.log(token);
-  } else {
-    alert("Must use physical device for Push Notifications");
-  }
-
-  if (Platform.OS === "android") {
-    Notifications.setNotificationChannelAsync("default", {
-      name: "default",
-      importance: Notifications.AndroidImportance.MAX,
-      vibrationPattern: [0, 250, 250, 250],
-      lightColor: "#FF231F7C",
-    });
-  }
-
-  return token;
-}
-*/
 const stylesPicker = StyleSheet.create({
   container: {
     alignItems: "center",
@@ -389,14 +397,7 @@ const stylesPicker = StyleSheet.create({
     color: "grey",
     alignSelf: "center",
   },
-  botao2: {
-    backgroundColor: "#fae278",
-    padding: 16,
-    width: 140,
-    alignItems: "center",
-    borderRadius: 11,
-    elevation: 1,
-    alignSelf: "center",
-    marginTop: 10,
+  viewRow: {
+    flexDirection: 'row'
   },
 });

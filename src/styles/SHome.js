@@ -42,6 +42,11 @@ const styles = StyleSheet.create({
     marginLeft: 25,
     alignSelf: "flex-start",
   },
+  textList: {
+    fontSize: 14,
+    fontWeight: "600",
+    color: "black",
+  },
   containerList: {
     flex: 0.4,
     justifyContent: "center",
@@ -49,6 +54,7 @@ const styles = StyleSheet.create({
     width: "82%",
     borderRadius: 30,
     marginTop: 10,
+    backgroundColor: 'white'
   },
   viewList: {
     alignItems: "center",
